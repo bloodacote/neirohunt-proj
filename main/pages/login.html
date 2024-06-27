@@ -1,0 +1,47 @@
+<h1 class="ui"> Авторизация </h1>
+<button class="ui" id="act-create-user"> Создать аккаунт </button>
+
+<p class="ui"> Логин: </p>
+<input class="ui" id="login-nick" autocomplete="off">
+
+<p class="ui"> Пароль: </p>
+<input class="ui" id="login-pass" autocomplete="off" type="password">
+
+<button class="ui" id="login-act"> Авторизация </button>
+
+<script>
+
+	// Если авторизации нет
+	if (typeof(gui.info.userInfo) != "string") {
+		gui.toLink("/account");
+	}
+
+	toElem("#login-act").onclick = async function() {
+		const loginNick = toElem("#login-nick").value;
+		const loginPass = toElem("#login-pass").value;
+
+		const loginInfo = await api.usersLogin(loginNick, loginPass);
+		console.log(loginInfo);
+
+		if (typeof(loginInfo) != "string") {
+			gui.toLink("/account");
+		} else {
+			gui.getError(loginInfo, {
+				"not-verified": "Почта не подтверждена",
+
+				"wrong-login": "Неверный логин или пароль!",
+				"wrong-pass": "Неверный логин или пароль!",
+
+				"input-too-short--pass": "Слишком короткий пароль!",
+				"input-too-short--nickname": "Слишком короткий логин!",
+				"input-too-long--pass": "Слишком длинный пароль!",
+				"input-too-long--nickname": "Слишком длинный логин!"
+			});
+		}
+	}
+
+	toElem("#act-create-user").onclick = function() {
+		gui.toLink("/reg");
+	}
+
+</script>

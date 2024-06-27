@@ -1,0 +1,37 @@
+
+
+@media (max-width: 800px) {
+
+	body{
+		height: calc(100% - 20px);
+	}
+
+	#left-panel{
+		display: none;
+	}
+
+	h1.ui{
+		position: absolute;
+		top: 0px;
+	}
+
+	#screen-window{
+		padding-top: 50px;
+		justify-content: center;
+	}
+
+	.ui{
+		width: 90%;
+		min-height: 50px;
+		margin: 5px 0;
+	}
+
+	#mobile-menu{
+		min-height: 70px;
+	}
+
+	article#panel-screen{
+		height: calc(100% - 80px);
+	}
+
+}

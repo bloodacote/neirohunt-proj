@@ -1,0 +1,170 @@
+
+
+/* - - - - - - - - - - - - - - - - - */
+/* ROOT VARS */
+
+:root{
+
+	/* = COLOR SCHEME = */
+	--bg-col: linear-gradient(45deg, rgb(47 58 127), rgb(65 47 87));
+	/*--app-col: linear-gradient(0deg, rgb(76 91 143 / 46%) 50%, rgb(113 122 189 / 78%));*/
+	--app-col: linear-gradient(0deg, #4d609d54, #7e9aff73);
+	--app-shadow: 0px 5px 30px rgba(0,0,0,0.2);
+	--btn-col: #070e2369;
+	--btn-light-col: #151d33b3;
+	--glass-dark-col: rgba(0,0,0,0.3);
+	--glass-light-col: rgba(255,255,255,0.1);
+
+	--text-col: white;
+	--btn-text-col: white;
+
+	/* = TEXT = */
+	--text-font: "Calibri";
+	--text-size: 14pt;
+	--text-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+
+	/* = LINES = */
+	--block-radius: 5px;
+	--cover-block-radius: 15px;
+
+}
+
+
+/* - - - - - - - - - - - - - - - - - */
+/* MAIN STYLES */
+
+
+html{
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	background: var(--bg-col);
+	color: var(--text-col);
+	text-shadow: var(--text-shadow);
+}
+
+.moving-bg{
+	width: 100vw;
+	height: 100vh;
+
+	background: url("/icons/neural.svg") repeat;
+	background-size: 100px 100px;
+	background-position: 0px 0px;
+
+	opacity: 0.02;
+	position: absolute;
+	z-index: 1;
+
+	animation: moving-bg linear 4s infinite;
+}
+
+@keyframes moving-bg{
+	0%{
+		background-position: 0px 0px;
+	}
+	100%{
+		background-position: 100px 100px;
+	}
+}
+
+body{
+	width: 1200px;
+	height: 80%;
+	margin: 0;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+main{
+	width: 100px;
+	height: 100%;
+	margin: 8px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	z-index: 5;
+}
+
+main#left-panel{
+	width: 300px;
+	flex-shrink: 0;
+
+	zoom: 1;
+}
+main#right-panel{
+	width: 100%;
+}
+
+article{
+	width: 100%;
+	min-height: 100px;
+	margin: 7px 0;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	background: var(--app-col);
+	border-radius: var(--block-radius);
+	box-shadow: var(--app-shadow);
+
+	overflow: hidden;
+	flex-shrink: 0;
+}
+
+article#panel-screen{
+	height: 100%;
+
+	position: relative;
+}
+
+button{
+	cursor: pointer;
+
+	color: var(--btn-text-col);
+	background: var(--btn-col);
+	text-shadow: var(--text-shadow);
+
+	border-radius: 4px;
+	transition: ease 0.3s;
+}
+button:hover{
+	background: var(--btn-light-col);
+}
+
+html, button, textarea, input{
+	font-family: var(--text-font);
+	font-size: var(--text-size);
+}
+
+textarea{
+	font-size: 0.9em;
+	letter-spacing: 1.5px;
+	line-height: 30px;
+}
+
+
+
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+	background: var(--btn-col);
+
+	cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb {
+	width: 5px;
+	height: 5px;
+	background: var(--app-col);
+	border: 1px solid var(--glass-light-col);
+	border-radius: 4px;
+
+	cursor: pointer;
+}

@@ -1,0 +1,24 @@
+
+
+.centered{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.list-page{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.centered-page{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.hide{
+	display: none;
+}

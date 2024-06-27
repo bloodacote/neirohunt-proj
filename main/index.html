@@ -1,0 +1,79 @@
+<html>
+	<head>
+		<title> NeiroHunt </title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" href="/styles/main.css">
+		<link rel="stylesheet" href="/styles/layout.css">
+		<link rel="stylesheet" href="/styles/samples.css">
+		<link rel="stylesheet" href="/styles/ui.css">
+		<link rel="stylesheet" href="/styles/mobile.css">
+
+		<link rel="stylesheet" href="/styles/ext/finder.css">
+	</head>
+
+	<div class="moving-bg"></div>
+
+	<body>
+
+		<main id="left-panel">
+
+			<article id="panel-user">
+				<label class="user-label">
+					<div class="user-desc centered-page">
+						<span class="user-text" id="account-name"> :user-name: </span>
+						<span class="user-text" id="account-cash"> :user-coins: </span>
+					</div>
+					<img src="/imges/full-img.jpg" class="user-avatar">
+				</label>
+			</article>
+
+			<article id="panel-menu"></article>
+		</main>
+
+		<main id="right-panel">
+			<article id="mobile-menu" class="centered"></article>
+
+			<article id="panel-screen">
+				<div id="screen-window"></div>
+				<div id="screen-layer" class="closed"></div>
+				<div id="screen-loading">
+					<img src="/icons/loading.svg" id="loading-wheel">
+				</div>
+			</article>
+		</main>
+
+	</body>
+</html>
+
+<script src="/lib/wafle-exp2.js"></script>
+<script src="/scripts/api-hook.js"></script>
+<script src="/scripts/gui-main.js"></script>
+<script src="/scripts/gui-editing.js"></script>
+
+<script>
+
+	//--  --  --  --  --  --  --  --  --  --  --  --
+	// Полная загрузка DOM интерфейса
+	async function loadGui() {
+		await gui.init();
+		await gui.toLink(window.location.pathname);
+
+		// Загрузка интерфейса
+		gui.edit.update();
+
+		gui.edit.addMenuButton("Главная", "house", "/home");
+		gui.edit.addMenuButton("Проверка текста", "search", "/finder");
+		gui.edit.addMenuButton("Авторизация", "login", "/blocked");
+
+		setInterval(async function() {
+			gui.edit.update();
+		}, 1000);
+
+	}
+
+	loadGui();
+
+
+</script>

@@ -1,0 +1,118 @@
+
+.ui{
+	width: 400px;
+	min-height: 40px;
+	margin: 10px 0;
+}
+
+p.ui{
+	min-height: 10px;
+	margin-top: 10px;
+	margin-bottom: 0;
+	padding-left: 20px;
+	font-size: 1.05em;
+
+	display: flex;
+}
+
+span.ui{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	background: var(--glass-dark-col);
+}
+
+textarea.ui, input.ui{
+	padding: 10px;
+
+	resize: none;
+	overflow-x: hidden;
+	overflow-y: scroll;
+
+	background: var(--btn-col);
+	border: 2px solid var(--btn-light-col);
+	border-radius: 4px;
+	color: var(--text-col);
+}
+
+textarea.ui{
+	width: calc(100% - 40px);
+}
+
+input.ui{
+	height: 30px;
+	font-size: 1.1em;
+}
+
+textarea#text-data{
+	height: calc(100% - 200px);
+}
+
+h1.ui{
+	width: 100%;
+	height: 60px;
+	padding: 0 50px;
+
+	position: relative;
+	z-index: 15;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-shrink: 0;
+
+	background: var(--bg-col);
+}
+h1.ui::before{
+	content: "";
+	position: absolute;
+	z-index: 10;
+
+	width: 100%;
+	height: 100%;
+	
+	background: url("/icons/checkers.png") repeat;
+	background-size: 100px 100px;
+	background-position: 0px 0px;
+
+	opacity: 0.04;
+
+	animation: moving-bg linear 4s infinite;
+}
+
+button.ui{
+	border: none;
+}
+
+span.info{
+	padding: 5px 10px;
+
+	border: 2px solid var(--btn-col);
+	transition: ease 0.3s;
+}
+
+span.info.hide{
+	min-height: 0px;
+	max-height: 0px;
+	padding: 0;
+	margin: 0;
+
+	opacity: 0;
+	pointer-events: none;
+}
+
+h2.ui{
+	width: 100%;
+	height: 50px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+img.ui{
+	width: calc(100% + 20px);
+
+	object-fit: cover;
+}

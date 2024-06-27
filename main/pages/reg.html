@@ -1,0 +1,122 @@
+<h1 class="ui"> Регистрация </h1>
+<button class="ui" id="act-login"> Войти в аккаунт </button>
+
+<p class="ui"> Логин: </p>
+<input class="ui" id="reg-nick" autocomplete="off">
+
+<span class="ui info" id="reg-nick-info">
+	Правила составления никнейма:
+	<br> Латинские буквы, цифры и знаки
+</span>
+
+<p class="ui"> Электронная почта: </p>
+<input class="ui" id="reg-email" autocomplete="off">
+
+<p class="ui"> Пароль: </p>
+<input class="ui" id="reg-pass" autocomplete="off" type="password">
+
+<span class="ui info" id="reg-pass-info">
+	Правила составления пароля:
+	<br> Минимум: 8 символов
+</span>
+
+<!--
+<p class="ui"> Подтверждение пароля: </p>
+<input class="ui" id="reg-pass2" autocomplete="off" type="password">
+-->
+
+<button class="ui" id="reg-act"> Регистрация </button>
+
+<script>
+
+	// Если авторизации нет
+	if (typeof(gui.info.userInfo) != "string") {
+		gui.toLink("/account");
+	}
+
+	toElem("#act-login").onclick = function() {
+		gui.toLink("/login");
+	}
+
+
+
+	toEdit("#reg-nick-info").addClass("hide");
+	toEdit("#reg-pass-info").addClass("hide");
+
+
+	toElem("#reg-nick").onfocus = function() {
+		toEdit("#reg-nick-info").removeClass("hide");
+	}
+	toElem("#reg-nick").onblur = function() {
+		toEdit("#reg-nick-info").addClass("hide");
+	}
+
+	toElem("#reg-pass").onfocus = function() {
+		toEdit("#reg-pass-info").removeClass("hide");
+	}
+	toElem("#reg-pass").onblur = function() {
+		toEdit("#reg-pass-info").addClass("hide");
+	}
+
+
+
+	toElem("#reg-act").onclick = async function() {
+
+		const regNick = toElem("#reg-nick").value;
+		const regPass = toElem("#reg-pass").value;
+		const regPass2 = regPass; //const regPass2 = toElem("#reg-pass2").value;
+		const regEmail = toElem("#reg-email").value;
+
+		const regInfo = await api.usersCreate(regNick, regPass, regPass2, regEmail);
+		console.log(regInfo);
+
+		if (typeof(regInfo) != "string") {
+			gui.toggleLoading(true);
+			toElem("#screen-window").innerHTML = "";
+
+			newElem("h1.ui", "#screen-window", `Осталось немного`);
+			newElem("p.ui", "#screen-window", `Верификация почты: ${regEmail}`);
+			newElem("p.ui", "#screen-window", "Код верификации:");
+			newElem("input #reg-email-code .ui", "#screen-window", "");
+			newElem("button #act-verify-email .ui", "#screen-window", "Верифицировать");
+
+			toElem("#act-verify-email").onclick = async function() {
+				const verifyCode = toElem("#reg-email-code").value;
+
+				const verifyInfo = await api.usersVerifyEmail(regEmail, verifyCode);
+				if (typeof(verifyInfo) != "string") {
+					gui.toLink("/login");
+
+				} else {
+					gui.getError(verifyInfo, {
+						"wrong-email-format": "Неверный формат почты!",
+						"email-not-registered": "Почта не зарегистрирована",
+
+						"wrong-code": "Неверный код!",
+						"input-too-short--email": "Почта неверной длины!",
+						"input-too-long--email": "Почта неверной длины!",
+						"input-too-short--code": "Код неверной длины!",
+						"input-too-long--code": "Код неверной длины!"
+					});
+				}
+			};
+
+			gui.toggleLoading(false);
+			//gui.toLink("/login");
+
+		} else {
+			gui.getError(regInfo, {
+				"wrong-nick-format": "Неверный формат ника!",
+				"pass-dont-match": "Пароли не совпадают!",
+				"wrong-email-format": "Неверный формат почты!",
+				"this-email-was-used": "Почта уже используется",
+
+				"input-too-short--pass": "Слишком короткий пароль!",
+				"input-too-short--nickname": "Слишком короткий логин!",
+				"input-too-long--pass": "Слишком длинный пароль!",
+				"input-too-long--nickname": "Слишком длинный логин!"
+			});
+		}
+	}
+
+</script>

@@ -1,0 +1,9 @@
+Options +FollowSymLinks
+RewriteEngine On
+
+# Проверка, что запрос не является существующим файлом или директорией
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Перенаправление на app.html
+RewriteRule ^(.*)$ /index.html [L,QSA]

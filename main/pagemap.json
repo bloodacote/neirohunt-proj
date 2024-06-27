@@ -1,0 +1,9 @@
+{
+	"/home": "/pages/home.html",
+	"/finder": "/pages/finder.html",
+	"/login": "/pages/login.html",
+	"/account": "/pages/account.html",
+	"/reg": "/pages/reg.html",
+	"/verify": "/pages/verify.html",
+	"/blocked": "/pages/blocked.html"
+}

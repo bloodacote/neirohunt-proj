@@ -1,0 +1,121 @@
+<h1 class="ui"> Проверка на нейросеть </h1>
+
+<textarea id="text-data" class="ui" placeholder="Процессор - это..."> </textarea>
+<span id="text-price" class="ui"> Слов в тексте: 0 / 100 </span>
+<button id="act-check-text" class="ui"> Проверить на нейросеть </button>
+
+
+<script>
+
+	gui.edit.countTextPrice = async function() {
+		var text = toElem("#text-data").value;
+
+		var textLength = text.length;
+		var minLength = gui.info.siteData.min_text_length;
+		var maxLength = gui.info.siteData.max_text_length;
+
+		if (textLength >= minLength) {
+			toElem("#text-price").innerText = `Символов в тексте: ${gui.numSplit(textLength)} / ${gui.numSplit(maxLength)}`;
+			toEdit("#act-check-text").removeClass("hide");
+		}
+
+		if (textLength > maxLength) {
+			toElem("#text-price").innerText = `Много символов в тексте (${gui.numSplit(textLength)} > ${gui.numSplit(maxLength)})`;
+			toEdit("#act-check-text").addClass("hide");
+		}
+
+		if (textLength < minLength) {
+			toElem("#text-price").innerText = `Мало символов в тексте (${gui.numSplit(textLength)} < ${gui.numSplit(minLength)})`;
+			toEdit("#act-check-text").addClass("hide");
+		}
+
+/*
+		var textInfo = await api.modelsCounter(text);
+
+		if (typeof(textInfo) != "string") {
+			toElem("#text-price").innerText = `Слов в тексте: ${textInfo.text_length}`;
+			toEdit("#act-check-text").removeClass("hide");
+		} else {
+			toElem("#text-price").innerText = `Мало слов в тексте`;
+			toEdit("#act-check-text").addClass("hide");
+		}
+		*/
+	};
+
+
+	gui.edit.countTextPrice();
+	toElem("#text-data").oninput = function() {
+		gui.edit.countTextPrice();
+	};
+
+
+	gui.edit.countNeiroLevel = function(percent) {
+
+		if (percent <= 20) {
+			return "Написано человеком";
+		}
+
+		if (percent > 20 && percent <= 40) {
+			return "Подозрение на нейросеть";
+		}
+
+		if (percent > 40 && percent <= 60) {
+			return "Использовалась нейросеть";
+		}
+
+		if (percent > 60 && percent <= 80) {
+			return "Написала нейросеть";
+		}
+
+		if (percent > 80 && percent <= 100) {
+			return "Чистая нейросеть";
+		}
+
+		if (percent > 100) {
+			return "НЕЙРОТА";
+		}
+
+	};
+
+
+	toElem("#act-check-text").onclick = async function() {
+
+		// Сохранение текста и удаление всего
+		var baseText = toElem("#text-data").value;
+		gui.toggleLoading(true);
+
+		toEdit("#text-data").delete();
+		toEdit("#text-price").delete();
+		toEdit("#act-check-text").delete();
+
+		// Загрузка алгоритма
+		var findResult = await api.modelsFinder(baseText);
+
+		console.log(findResult);
+
+		if (typeof(findResults) == "string") {
+			gui.getError(findResults, {
+						"input-too-short--text": "Слишком мало текста!",
+						"input-too-long--text": "Слишком много текста!"
+					});
+		}
+
+		var markedText = findResult.edited_text;
+		var neiroPercent = parseInt(findResult.neiro_percent);
+		var neiroLevel = gui.edit.countNeiroLevel(neiroPercent);
+
+		// Создание нового контента
+		var elemResults = newEdit(".ui .find-result .centered-page", "#screen-window", `
+			<p> Нейросети в тексте: </p>
+			<h1 class="centered"> ${neiroPercent}% нейросети </h1>
+			<span>Вывод: ${neiroLevel}</span>
+			<div class="percent-line" style="--percent: ${neiroPercent}%;"></div>
+		`);
+
+		var markedTextElem = newEdit(".ui .find-result-textarea", "#screen-window");
+		markedTextElem.setHTML(markedText);
+
+		gui.toggleLoading(false);
+	};
+
+</script>

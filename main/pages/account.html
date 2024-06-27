@@ -1,0 +1,28 @@
+<h1 id="user-title" class="ui"> Личный кабинет </h1>
+
+<button class="ui" id="btn-change-login"> НЕДОСТУПНО </button>
+<button class="ui" id="btn-change-pass"> НЕДОСТУПНО </button>
+<button class="ui" id="btn-logout"> Выйти </button>
+
+<span> Тут пока ничего нет! </span>
+
+<script>
+
+	loadAccount = async function() {
+		await gui.edit.update();
+		if (typeof(gui.info.userInfo) == "string") {
+			gui.toLink("/login");
+		}
+
+		toEdit("#user-title").setText(gui.info.userInfo.nickname);
+	}
+
+	loadAccount();
+
+	toElem("#btn-logout").onclick = async function() {
+		await api.usersLogout();
+		gui.edit.update();
+		gui.toLink("/home");
+	}
+
+</script>
